@@ -1,0 +1,89 @@
+I used csrf-csrf package.
+
+First:
+
+    npm install cookie-parser csrf-csrf
+
+In app.js :
+
+    const { doubleCsrf } = require("csrf-csrf");
+    const { options } = require('./configs/csrf-csrfOptions');
+    const cookieParser = require('cookie-parser');
+    // After const app = express(); 
+    const { doubleCsrfProtection } = doubleCsrf(options);
+     
+    // COOKIE_PARSER_SECRET is just a string with random symbols, you can use any string you want or // don't use at all, just cookieParcer();
+    app.use(cookieParser(COOKIE_PARSER_SECRET));
+     
+    app.use(doubleCsrfProtection);
+    // Make sure that you use app.use(doubleCsrfProtection); BEFORE registereing routes to protect your routes!
+     
+    app.use('/admin', adminRouter);
+    app.use(authRouter);
+    app.use(shopRouter);
+
+Create new file in configs folder (I called it csrf-csrfOptions.js) that you should import in app.js:
+
+Itis important to create file, because you'll need to use this options in another place below.
+
+    const { CSRF_CSRF_SECRET } = require('./keys.dev');
+     
+    // CSRF_CSRF_SECRET is just a string with random symbols, you can use any string you want
+    module.exports = {
+      options: {
+        getSecret: () => CSRF_CSRF_SECRET,
+        cookieName: 'csrf',
+        getTokenFromRequest: req => {
+          if (req.body.csrfToken) { 
+            return req.body.csrfToken; // Name of your input from the view (look explanation below)
+          }
+          return req['x-csrf-token'];
+        }
+      }
+    }
+
+Create helper - new file createToken.js in utils folder:
+
+    const { doubleCsrf } = require("csrf-csrf");
+    const { options } = require('../configs/csrf-csrfOptions');
+     
+    const { generateToken } = doubleCsrf(options);
+     
+    module.exports = {
+      createToken: (res) => {
+       // I set the token in local of request, because I need to set it in handlebars views by @root.csrf:
+    res.locals.csrf = generateToken(res);
+    // If you are going to use Max's method to pass value and set it in ejs, you can delete previous line and only return generateToken(res);
+      }
+    };
+
+Than you can use in in your controllers:
+
+You MUST create token in every GET route where you have form with method POST. ( form for update, edit, delete, post etc). Otherwise you'll have 403 Error. For example you need to add product. When you open page (get request that render the page) you should create token in the controller function:
+
+    const { createToken } = require('../../utils/createToken');
+    module.exports = {
+    	getAddProduct: (req, res, next) => {
+    		createToken(res); // HERE IS USAGE
+    		return res.render('admin/edit-product', {
+    			activeAddProd: true,
+    			isAuthenticated: req.session.isLoggedIn,
+    			pageTitle: 'Add product page',
+    			productCSS: true,
+    		});
+    	},
+    }
+
+Very IMPORTANT to add token in the views. If you use ejs, please watch how Max did in a video. The principle is the same. BUT make sure that your hidden input name is name="csrfToken". Because in options when function will read token it will look it in req.body.csrfToken.
+Again, whach how to pass value into view and set token. Because this syntax : value={{@root.csrf}} is handlebars.
+
+So you should add csfr token to each form in views ( I add it right before ech button in forms). I used handlebars :
+
+    <input type="hidden" name="csrfToken" value={{@root.csrf}}>
+
+It is a new package and it does work for me perfectly.
+P.S. Check paths in imports, because you probably will have other paths.
+
+
+
+openssl req -nodes -new -x509 -keyout server.key -out server.cert
