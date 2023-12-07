@@ -177,7 +177,7 @@ exports.postReset = (req, res, next) => {
           from: "pireboy75@gmail.com",
           subject: "Password Reset",
           html: `<h1>Password Reset</h1>
-          <p>Click this <a href="http://localhost:3000/reset/${token}">link</a> to reset your password`,
+          <p>Click this <a href="https://products-store.onrender.com/${token}">link</a> to reset your password`,
         });
       })
       .catch((err) => {
