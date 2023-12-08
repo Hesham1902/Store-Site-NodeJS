@@ -66,4 +66,18 @@ let signupValidation = [
     .custom((value, { req }) => value === req.body.password)
     .withMessage("The passwords do not match"),
 ];
+
+let resetPasswordValidation = [
+  body("password")
+    .exists({ checkFalsy: true })
+    .withMessage("You must type a password")
+    .isLength({ min: 4 })
+    .withMessage("The password must be at least 4 chars long"),
+  body("confirmPassword")
+    .exists({ checkFalsy: true })
+    .withMessage("You must type a confirmation password")
+    .custom((value, { req }) => value === req.body.password)
+    .withMessage("The passwords do not match"),
+];
+
 module.exports = { productValidation, loginValidation, signupValidation };
