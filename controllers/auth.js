@@ -210,7 +210,22 @@ exports.getNewPassword = (req, res, next) => {
 exports.postNewPassword = (req, res, next) => {
   const userId = req.body.userId;
   const newPassword = req.body.password;
+  const confirmPassword = req.body.confirmPassword;
   const passwordToken = req.body.passwordToken;
+  const errors = validationResult(req);
+  if (newPassword !== confirmPassword) {
+    req.flash("error", "passwords do not match");
+    return res.redirect(`/reset/${passwordToken}`);
+  }
+  if (!errors.isEmpty()) {
+    return res.status(422).render("auth/new-password", {
+      path: "/new-password",
+      pageTitle: "Update Password",
+      errorMessage: errors.array()[0].msg,
+      userId: userId,
+      passwordToken: passwordToken,
+    });
+  }
   User.findOne({
     resetToken: passwordToken,
     resetTokenExpiration: { $gt: Date.now() },
