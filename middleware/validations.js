@@ -32,7 +32,7 @@ let loginValidation = [
     }),
   body("password", "Not A Valid Password")
     .isLength({ min: 4 })
-    .isAlphanumeric()
+    .matches(/^[a-zA-Z0-9@_]+$/)
     .custom((value, { req }) => {
       return bcrypt.compare(value, req.user.password).then((doMatch) => {
         if (!doMatch) {
@@ -59,6 +59,7 @@ let signupValidation = [
     .exists({ checkFalsy: true })
     .withMessage("You must type a password")
     .isLength({ min: 4 })
+    .matches(/^[a-zA-Z0-9@_]+$/)
     .withMessage("The password must be at least 4 chars long"),
   body("confirmPassword")
     .exists({ checkFalsy: true })
