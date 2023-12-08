@@ -68,7 +68,7 @@ let signupValidation = [
 ];
 
 let resetPasswordValidation = [
-  body("newPassword")
+  body("password")
     .exists({ checkFalsy: true })
     .withMessage("You must type a password")
     .isLength({ min: 4 })
