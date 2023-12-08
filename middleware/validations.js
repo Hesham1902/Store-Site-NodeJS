@@ -80,4 +80,9 @@ let resetPasswordValidation = [
     .withMessage("The passwords do not match"),
 ];
 
-module.exports = { productValidation, loginValidation, signupValidation };
+module.exports = {
+  productValidation,
+  loginValidation,
+  signupValidation,
+  resetPasswordValidation,
+};

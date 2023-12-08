@@ -4,6 +4,7 @@ const router = express.Router();
 const {
   loginValidation,
   signupValidation,
+  resetPasswordValidation,
 } = require("../middleware/validations");
 
 router.get("/login", authController.getLogin);
@@ -22,6 +23,10 @@ router.post("/reset", authController.postReset);
 
 router.get("/reset/:token", authController.getNewPassword);
 
-router.post("/new-password", ,authController.postNewPassword);
+router.post(
+  "/new-password",
+  resetPasswordValidation,
+  authController.postNewPassword
+);
 
 module.exports = router;
