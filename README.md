@@ -2,17 +2,17 @@
 # Welcome to the Node.js Store Site project! This e-commerce platform is built with Node.js, Express.js, and MongoDB to provide a robust and scalable solution for online stores.
 Features
 
-    ## User Authentication: Secure user authentication for a personalized shopping experience.
+     User Authentication: Secure user authentication for a personalized shopping experience.
 
-    ## Product Management: User-friendly interface for adding, editing, and deleting products.
+     Product Management: User-friendly interface for adding, editing, and deleting products.
 
-    ## Shopping Cart: Seamless shopping cart system for managing selected items.
+     Shopping Cart: Seamless shopping cart system for managing selected items.
 
-    ## Order Processing: Reliable order processing system for accurate tracking and fulfillment.
+     Order Processing: Reliable order processing system for accurate tracking and fulfillment.
 
-    ## Payment Gateway Integration: Secure payment gateway for smooth and safe transactions.
+     Payment Gateway Integration: Secure payment gateway for smooth and safe transactions.
 
-    ## Responsive Design: Optimized for various devices, ensuring a great user experience.
+     Responsive Design: Optimized for various devices, ensuring a great user experience.
 
 # Technologies Used
 
