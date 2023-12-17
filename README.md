@@ -26,11 +26,10 @@ Features
 
 # Getting Started
 
-    ## Clone the repository:
+ Clone the repository:
 
-    bash
-
-git clone https://github.com/Hesham1902/Store-Site-NodeJS.git
+     bash
+     git clone https://github.com/Hesham1902/Store-Site-NodeJS.git
 
 ## Install dependencies:
 
